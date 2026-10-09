@@ -2,9 +2,83 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
     <title>Film Croquette</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+        integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+        crossorigin="anonymous"></script>
+
+<header class="bg-black">
+    <img src="image/banner.png" class="img-fluid"/>
+</header>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="seances.html" role="button" data-bs-toggle="dropdown">Seances</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="seances.html">Toutes les séances</a></li>
+                        <ul class="dropdown-menu">
+                            <li><hr class="dropdown-divider"></li>
+                            <li class="acceuil"><a class="dropdown-item" href="index.html">Accueil</a></li>
+                            <li><a class="dropdown-item" href="film-croquette.html">Croquette</a></li>
+                        </ul>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="main" class="container-fluid">
+
+<h1>Croquette</h1>
+<h6>&nbsp;</h6>
+<h4>Séances du 21 octobre au 27 octobre</h4>
+<h6>&nbsp;</h6>
+    <div class="row">
+
+        <div class="col-sm-6 col-lg-9 bordure">
+            <h2>Résumé</h2>
+            <p>C’est bien connu, les chats ont plusieurs vies ! Croquette vient de gâcher celle de trop et il ferait tout pour retrouver Rose, sa maîtresse adorée. On lui accorde une dernière chance, cependant une règle a changé : Croquette peut revenir, mais à un détail près... Désormais transformé en cheval, chien, perroquet ou poisson, l’aventure ne fait que commencer !</p>
+
+            <h2>Séances</h2>
+            <ul>
+            <li>Horaire : 14h00 | 16h30 | 18h30 | 20h00</li>
+            <li>Salles : Salle N°7 | Salle N°9 | Salle N°5</li>
+            <li>Version : VF</li>
+            <li>Interdiction : Tout âge</li>
+        </ul>
+        </div>
+
+        <div class="col-sm-6 col-lg-2 bordure">
+            <img src="image/affiche-croquette.jpg" class="img-fluid">
+        </div>
+
+    </div>
+
+    <div class="col-sm-6">
+        <a href="index.html"> Revenir à l'acceuil</a>
+    </div>
+
 
 </body>
 </html>
