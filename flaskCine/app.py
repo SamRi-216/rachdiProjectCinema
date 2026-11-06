@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 import pymysql
 
 from config import Config
@@ -42,5 +42,31 @@ def home():
         # 4. Fermeture obligatoire de la connexion
         if connection and connection.open:
             connection.close()
+
+@app.route('/film/<id_film>')
+def film(id_film):
+    connection = None
+    try:
+        # 1. Connexion à la base
+        connection = get_db_connection()
+
+
+        # 2. Exécution de la requête SQL
+        with connection.cursor() as cursor:
+            requete= "SELECT * FROM film WHERE id = %s;"
+
+            valeurs = (id_film,)
+            cursor.execute(requete, valeurs)
+            resultat = cursor.fetchone()  # ou fetchall() pour obtenir tous les résultats
+
+
+
+    finally:
+        # 4. Fermeture obligatoire de la connexion
+        if connection and connection.open:
+            connection.close()
+        return render_template('film.html' , film=resultat)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
