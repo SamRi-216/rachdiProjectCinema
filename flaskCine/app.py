@@ -68,5 +68,40 @@ def film(id_film):
         return render_template('film.html' , film=resultat)
 
 
+@app.route('/getseances/<int:numSalle>', methods=['GET'])
+def getseances(numSalle):
+    connection = None
+    try:
+        # 1. Connexion à la base via votre fonction existante
+        connection = get_db_connection()
+
+        # 2. Exécution de la requête SQL
+        with connection.cursor() as cursor:
+            query = """ 
+                        SELECT f.titre AS titre,
+                        DATE_FORMAT(se.horaire, '%%Y-%%m-%%d %%H:%%i') AS horaire, f.langue  AS version,f.`interdit_-16_ans`  AS interdiction_16 
+                        FROM seance se
+                        JOIN film f ON se.id_film = f.id
+                        JOIN salle sa ON se.id_salle = sa.id
+                        WHERE sa.numero_salle = %s
+            """
+            print ( query, numSalle)
+            cursor.execute(query, (numSalle,))
+            seances_salle = cursor.fetchall()
+
+        # 3. Renvoie uniquement la liste JSON des séances
+        return jsonify(seances_salle), 200
+
+    except pymysql.MySQLError as error:
+        return jsonify({
+            "statut": "erreur",
+            "message": f"Erreur base de données : {str(error)}"
+        }), 500
+
+    finally:
+        # 4. Fermeture propre de la connexion
+        if connection and connection.open:
+            connection.close()
+
 if __name__ == '__main__':
     app.run(debug=True)
