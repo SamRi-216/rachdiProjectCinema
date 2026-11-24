@@ -26,13 +26,11 @@ def home():
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM seance WHERE horaire >= NOW();")
             resultat = cursor.fetchone() # ou fetchall() pour obtenir tous les résultats
+            print(resultat)
 
         # 3. Affichage du résultat au format JSON
-        return jsonify({
-            "statut": "succès",
-            "message": "Connexion BDD réussie !",
-            "donnees": resultat
-    }), 200
+        return render_template('index.html' , seances=resultat)
+
     except pymysql.MySQLError as error:
         # En cas d'erreur de connexion ou SQL
         return jsonify({
