@@ -14,32 +14,9 @@ def get_db_connection():
         )
 
 # Route unique pour la page d'accueil
+
 @app.route('/')
 def home():
-    connection = None
-    try:
-        # 1. Connexion à la base
-        connection = get_db_connection()
-
-
-        # 2. Exécution de la requête SQL
-        with connection.cursor() as cursor:
-            requete= "SELECT * FROM film WHERE id = %s;"
-
-            cursor.execute(requete)
-            resultat = cursor.fetchone()  # ou fetchall() pour obtenir tous les résultats
-
-
-
-    finally:
-        # 4. Fermeture obligatoire de la connexion
-        if connection and connection.open:
-            connection.close()
-        return render_template('film.html' , film=resultat)
-
-
-@app.route('/test')
-def test():
     connection = None
     try:
         # 1. Connexion à la base
