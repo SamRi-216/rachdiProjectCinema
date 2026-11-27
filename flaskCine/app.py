@@ -110,20 +110,20 @@ def getseances(numSalle):
             connection.close()
 
 
-@app.route('/form')
+@app.route('/admin')
 def admin_accueil():
     return render_template('base_admin.html', action='accueil')
 
-@app.route('/form/films')
+@app.route('/admin/films')
 def voir_films():
     conn = get_db_connection()
     with conn.cursor() as cursor:
         cursor.execute("SELECT * FROM film")
         films = cursor.fetchall()
     conn.close()
-    return render_template('formulaire.html', action='voir_films', films=films)
+    return render_template('base_admin.html', action='voir_films', films=films)
 
-@app.route('/form/ajouter_film', methods=['GET', 'POST'])
+@app.route('/admin/ajouter_film', methods=['GET', 'POST'])
 def ajouter_film():
     if request.method == 'POST':
         titre = request.form['titre']
@@ -143,10 +143,10 @@ def ajouter_film():
 
         return redirect(url_for('voir_films'))
 
-    return render_template('formulaire.html', action='ajouter_film')
+    return render_template('base_admin.html', action='ajouter_film')
 
 
-@app.route('/form/seances')
+@app.route('/admin/seances')
 def voir_seances():
     conn = get_db_connection()
     with conn.cursor() as cursor:
@@ -159,10 +159,10 @@ def voir_seances():
         cursor.execute(sql)
         seances = cursor.fetchall()
     conn.close()
-    return render_template('formulaire.html', action='voir_seances', seances=seances)
+    return render_template('base_admin.html', action='voir_seances', seances=seances)
 
 
-@app.route('/form/ajouter_seance', methods=['GET', 'POST'])
+@app.route('/admin/ajouter_seance', methods=['GET', 'POST'])
 def ajouter_seance():
     conn = get_db_connection()
 
@@ -183,7 +183,7 @@ def ajouter_seance():
         films = cursor.fetchall()
     conn.close()
 
-    return render_template('formulaire.html', action='ajouter_seance', films=films)
+    return render_template('base_admin.html', action='ajouter_seance', films=films)
 
 
 if __name__ == '__main__':
