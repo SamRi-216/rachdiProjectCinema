@@ -67,6 +67,11 @@ def film(id_film):
             connection.close()
         return render_template('film.html' , film=resultat)
 
+@app.route('/acceuil')
+def acceuil():
+
+    return render_template('index.html')
+
 
 @app.route('/getseances/<int:numSalle>', methods=['GET'])
 def getseances(numSalle):

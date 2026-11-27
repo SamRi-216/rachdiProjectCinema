@@ -48,11 +48,11 @@
     </div>
 </nav>
 
+{% extends "base.html" %}
 
-<h2>Cinéma multiplexe du Castor</h2>
-<h2>&nbsp;</h2>
-<h2>Prochaine séance</h2>
+{% block titre %}Accueil - Cinéma du Castor{% endblock %}
 
+{% block contenu %}
     <div id="main" class="container-fluid">
         <div class="row">
             <div class="col-sm-2">
@@ -67,6 +67,8 @@
         </div>
     </div>
 
+    <h1>Cinéma multiplexe du Castor</h1>
+    <div class="row">
         <div class="container">
             <h2>&nbsp;</h2>
             <h2>Dans les autres salles</h2>
@@ -95,6 +97,10 @@
         </div>
 
     </div>
+    </div>
+{% endblock %}
+
+
 <footer class="pied mt-auto">
     BTS CIEL Simone de Beauvoir, 2026
 </footer>
