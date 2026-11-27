@@ -1,4 +1,5 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request, redirect, url_for
+
 import pymysql
 
 from config import Config
@@ -25,7 +26,7 @@ def home():
         # 2. Exécution de la requête SQL
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM seance WHERE horaire >= NOW();")
-            resultat = cursor.fetchone() # ou fetchall() pour obtenir tous les résultats
+            resultat = cursor.fetchall() # ou fetchall() pour obtenir tous les résultats
             print(resultat)
 
         # 3. Affichage du résultat au format JSON
@@ -67,10 +68,10 @@ def film(id_film):
             connection.close()
         return render_template('film.html' , film=resultat)
 
-@app.route('/acceuil')
-def acceuil():
+@app.route('/test')
+def test():
 
-    return render_template('index.html')
+    return render_template('formulaire.html')
 
 
 @app.route('/getseances/<int:numSalle>', methods=['GET'])
@@ -107,6 +108,83 @@ def getseances(numSalle):
         # 4. Fermeture propre de la connexion
         if connection and connection.open:
             connection.close()
+
+
+@app.route('/form')
+def admin_accueil():
+    return render_template('base_admin.html', action='accueil')
+
+@app.route('/form/films')
+def voir_films():
+    conn = get_db_connection()
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT * FROM film")
+        films = cursor.fetchall()
+    conn.close()
+    return render_template('formulaire.html', action='voir_films', films=films)
+
+@app.route('/form/ajouter_film', methods=['GET', 'POST'])
+def ajouter_film():
+    if request.method == 'POST':
+        titre = request.form['titre']
+        duree = request.form['duree']
+        interdit = 1 if 'interdit' in request.form else 0
+        langue = request.form['langue']
+        resume = request.form['resume']
+        affiche = request.form['affiche']
+
+        conn = get_db_connection()
+        with conn.cursor() as cursor:
+            sql = """INSERT INTO film (titre, duree, `interdit_-16_ans`, langue, resume, affiche) 
+                     VALUES (%s, %s, %s, %s, %s, %s)"""
+            cursor.execute(sql, (titre, duree, interdit, langue, resume, affiche))
+        conn.commit()
+        conn.close()
+
+        return redirect(url_for('voir_films'))
+
+    return render_template('formulaire.html', action='ajouter_film')
+
+
+@app.route('/form/seances')
+def voir_seances():
+    conn = get_db_connection()
+    with conn.cursor() as cursor:
+        sql = """
+            SELECT seance.id, seance.horaire, film.titre, seance.id_salle
+            FROM seance
+            JOIN film ON seance.id_film = film.id
+            ORDER BY seance.horaire ASC
+        """
+        cursor.execute(sql)
+        seances = cursor.fetchall()
+    conn.close()
+    return render_template('formulaire.html', action='voir_seances', seances=seances)
+
+
+@app.route('/form/ajouter_seance', methods=['GET', 'POST'])
+def ajouter_seance():
+    conn = get_db_connection()
+
+    if request.method == 'POST':
+        horaire = request.form['horaire']
+        id_film = request.form['id_film']
+        id_salle = request.form['id_salle']
+
+        with conn.cursor() as cursor:
+            sql = "INSERT INTO seance (horaire, id_film, id_salle) VALUES (%s, %s, %s)"
+            cursor.execute(sql, (horaire, id_film, id_salle))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('voir_seances'))
+
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT id, titre FROM film")
+        films = cursor.fetchall()
+    conn.close()
+
+    return render_template('formulaire.html', action='ajouter_seance', films=films)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

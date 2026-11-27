@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block titre %}Accueil - Cinéma du Castor{% endblock %}
+
+{% block contenu %}
+
+    {% if action == 'voir_films' %}
+        <h4>Liste des films</h4>
+        <table class="table">
+            <thead>
+                <tr><th>Titre</th><th>Durée</th></tr>
+            </thead>
+            <tbody>
+                {% for film in films %}
+                <tr>
+                    <td>{{ film.titre }}</td>
+                    <td>{{ film.duree }} min</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% elif action == 'ajouter_film' %}
+    <h4>Ajouter un film</h4>
+    <form method="POST">
+        <div class="mb-2">
+            <label>Titre :</label>
+            <input type="text" name="titre" class="form-control" required>
+        </div>
+
+        <div class="mb-2">
+            <label>Durée :</label>
+            <input type="time" step="1" name="duree" class="form-control" required>
+        </div>
+
+        <div class="mb-2 form-check">
+            <input type="checkbox" name="interdit" id="interdit" class="form-check-input">
+            <label for="interdit" class="form-check-label">Interdit aux moins de 16 ans</label>
+        </div>
+
+        <div class="mb-2">
+            <label>Langue :</label>
+            <select name="langue" class="form-control">
+                <option value="VF">VF</option>
+                <option value="VO">VO</option>
+                <option value="VOSTR">VOSTR</option>
+            </select>
+        </div>
+
+        <div class="mb-2">
+            <label>Résumé :</label>
+            <textarea name="resume" rows="3" class="form-control"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label>Nom du fichier affiche (ex: affiche-film.jpg) :</label>
+            <input type="text" name="affiche" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Ajouter le film</button>
+    </form>
+
+
+    {% elif action == 'voir_seances' %}
+    <h4>Liste des séances</h4>
+    <table class="table table-striped table-bordered mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Film</th>
+                <th>Date et heure</th>
+                <th>Salle</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for seance in seances %}
+            <tr>
+                <td>{{ seance.id }}</td>
+                <td>{{ seance.titre }}</td>
+                <td>{{ seance.horaire.strftime('%d/%m/%Y à %Hh%M') }}</td>
+                <td>Salle {{ seance.id_salle }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+    {% elif action == 'ajouter_seance' %}
+    <h4>Ajouter une séance</h4>
+    <form method="POST">
+        <div class="mb-2">
+            <label>Film :</label>
+            <select name="id_film" class="form-control" required>
+                {% for film in films %}
+                    <option value="{{ film.id }}">{{ film.titre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-2">
+            <label>Date et heure :</label>
+            <input type="datetime-local" name="horaire" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Salle :</label>
+            <select name="id_salle" class="form-control" required>
+                <option value="1">Salle 1</option>
+                <option value="2">Salle 2</option>
+                <option value="3">Salle 3</option>
+            </select>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Ajouter la séance</button>
+    </form>
+
+</div>
+
+    {% else %}
+        <h3>Administration du site</h3>
+    {% endif %}
+
+<footer class="pied mt-auto">
+    BTS CIEL Simone de Beauvoir, 2026
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap.... </script>
